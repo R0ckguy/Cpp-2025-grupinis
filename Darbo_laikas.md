@@ -8,7 +8,7 @@
 ### Lukas Zujevas 25%
 | Užduotis | Laikas (min.) |
 |----------|---------------|
-|          |               |
+|Use-case ir activity diagramų sudarymas |60|
 |          |               |
 |          |               |
 
