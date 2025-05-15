@@ -1,8 +1,8 @@
 ### Rokas Sirvydis 25%
 | Užduotis | Laikas (min.) |
 |----------|---------------|
-|    ReadME sudarymas      |      30         |
-|          |               |
+|ReadME sudarymas|30|
+|Back-end kodo rašymas|180|
 |          |               |
 
 ### Lukas Zujevas 25%
