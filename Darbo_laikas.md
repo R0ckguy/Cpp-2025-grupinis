@@ -9,13 +9,13 @@
 | Užduotis | Laikas (min.) |
 |----------|---------------|
 |Use-case ir activity diagramų sudarymas |60|
-|Back-end kodo rasymas|100 |
+|Back-end kodo rasymas|120 |
 |          |               |
 
 ### Mažvydas Peleckas 25%
 | Užduotis | Laikas (min.) |
 |----------|---------------|
-|Paleidimas per windows|30 |
+|Paleidimas per windows|40 |
 |Testavimas     |80        |
 |Back-end kodo rašymas|60  |
 
