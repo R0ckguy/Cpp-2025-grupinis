@@ -1,13 +1,13 @@
 # Cpp-2025-grupinis projektas
-- *Projektas:* To-do app
-- *Nariai:*
-  - *Rokas Sirvydis*
-  - *Lukas Zujevas*
-  - *Mažvydas Peleckas*
-  - *Ugnė Pacevičiūtė*
+- **Projektas:** To-do app
+- **Nariai:**
+  - **Rokas Sirvydis**
+  - **Lukas Zujevas**
+  - **Mažvydas Peleckas**
+  - **Ugnė Pacevičiūtė**
 
 # Projekto aprašymas
-- *Aprašymas:* Programa leidžianti kurti, redaguoti ir trinti užduotis su terminais, pažymėti jas atliktomis, filtruoti/rūšiuoti pagal terminą arba prioritetą.
+- **Aprašymas:** Programa leidžianti kurti, redaguoti ir trinti užduotis su terminais, pažymėti jas atliktomis, filtruoti/rūšiuoti pagal terminą arba prioritetą.
 
 # Use-case diagrama
 ![Use-case diagram](https://github.com/user-attachments/assets/6afb3c2a-881c-409b-a68f-a81efa502baf)
@@ -22,14 +22,14 @@
 Šiame projekte taikomi šie projektavimo šablonai:
 
 ### Iteratorius (Iterator Pattern)
-- *Kur rasti:* TaskManager.cpp metodai (listAll(), searchByTitle()), taip pat pagrindinė duomenų išvedimo vieta (main.cpp, ciklas for (auto& t : list)).
-- *Kaip veikia:* Leidžia patogiai ir saugiai pereiti per užduočių sąrašą, neatsižvelgiant į jų saugojimo būdą.
-- *Nauda:* Lankstumas dirbant su duomenų kolekcijomis, aiškesnė programos logika.
+- **Kur rasti:** `TaskManager.cpp` metodai (`listAll()`, `searchByTitle()`), taip pat pagrindinė duomenų išvedimo vieta (`main.cpp`, ciklas `for (auto& t : list)`).
+- **Kaip veikia:** Leidžia patogiai ir saugiai pereiti per užduočių sąrašą, neatsižvelgiant į jų saugojimo būdą.
+- **Nauda:** Lankstumas dirbant su duomenų kolekcijomis, aiškesnė programos logika.
 
 ### Atsakomybės atskyrimas (Separation of Concerns)
-- *Kur rasti:* Klasių struktūroje: TaskManager klasė valdo visą užduočių logiką, o main.cpp tik valdo vartotojo įvestis.
-- *Kaip veikia:* Kiekviena komponentė atsakinga tik už savo funkcionalumą.
-- *Nauda:* Lengvesnis kodų keitimas bei palaikymas, aiškesnė architektūra.
+- **Kur rasti:** Klasių struktūroje: `TaskManager` klasė valdo visą užduočių logiką, o `main.cpp` tik valdo vartotojo įvestis.
+- **Kaip veikia:** Kiekviena komponentė atsakinga tik už savo funkcionalumą.
+- **Nauda:** Lengvesnis kodų keitimas bei palaikymas, aiškesnė architektūra.
 
 ## Kaip paleisti projektą
 
