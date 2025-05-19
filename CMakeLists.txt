@@ -24,7 +24,7 @@ target_link_libraries(taskmanager PRIVATE nlohmann_json::nlohmann_json)
 # Build the main CLI application
 # ----------------------------------------------------------------------
 add_executable(task_app src/main.cpp)
-target_link_libraries(task_app PRIVATE taskmanager)
+target_link_libraries(task_app PRIVATE taskmanager nlohmann_json::nlohmann_json)
 
 # ----------------------------------------------------------------------
 #                        TESTS INCLUDED
@@ -52,6 +52,7 @@ target_link_libraries(TaskManagerTests
         taskmanager
         gtest_main
         pthread
+        nlohmann_json::nlohmann_json
 )
 
 target_include_directories(TaskManagerTests PRIVATE include)
