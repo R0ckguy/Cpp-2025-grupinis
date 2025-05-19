@@ -15,7 +15,8 @@
 # Activity diagrama
 ![Activity diagram](https://github.com/user-attachments/assets/cf94452c-05cc-424e-b70b-0f15dce367a1)
 
-![Klasių diagrama](class_diagram.png)
+![Klasių_diagram](https://github.com/user-attachments/assets/0d0bcf77-bed4-4eb5-8d11-9123d47ae9ae)
+
 
 ## Projektavimo šablonai
 
