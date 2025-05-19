@@ -69,6 +69,6 @@ TEST_F(TaskManagerTest, SortsByDueDate) {
     mgr.sortByDueDate();
     auto tasks = mgr.listAll();
 
-    ASSERT_GE(tasks.size(), 2);
+    ASSERT_EQ(tasks.size(), 2);
     EXPECT_LT(tasks[0].dueDate, tasks[1].dueDate);
 }
