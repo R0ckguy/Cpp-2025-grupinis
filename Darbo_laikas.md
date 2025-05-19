@@ -15,14 +15,14 @@
 ### Mažvydas Peleckas 25%
 | Užduotis | Laikas (min.) |
 |----------|---------------|
-|          |               |
-|          |               |
+|Paleidimas per windows|30 |
+|Testavimas     |80        |
 |          |               |
 
 ### Ugnė Pacevičiūtė 25%
 | Užduotis | Laikas (min.) |
 |----------|---------------|
-|          |               |
-|          |               |
+|Diagramų sudarymas|60     |
+|Makefile  | 20            |
 |          |               |
 
