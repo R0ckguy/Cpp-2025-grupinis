@@ -8,8 +8,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 # Gather source files
-file(GLOB SRCS "${PROJECT_SOURCE_DIR}/src/*.cpp")
-list(REMOVE_ITEM SRCS "${PROJECT_SOURCE_DIR}/src/main.cpp")
+file(GLOB SRCS "${PROJECT_SOURCE_DIR}/src/BACKEND/*cpp")
+list(REMOVE_ITEM SRCS "${PROJECT_SOURCE_DIR}/src/BACKEND/main.cpp")
 
 # External library (JSON)
 find_package(nlohmann_json 3.2.0 REQUIRED)
@@ -23,17 +23,15 @@ target_link_libraries(taskmanager PRIVATE nlohmann_json::nlohmann_json)
 # ----------------------------------------------------------------------
 # Build the main CLI application
 # ----------------------------------------------------------------------
-add_executable(task_app src/main.cpp)
+add_executable(task_app src/BACKEND/main.cpp)
 target_link_libraries(task_app PRIVATE taskmanager nlohmann_json::nlohmann_json)
 
 # ----------------------------------------------------------------------
 #                        TESTS INCLUDED
 # ----------------------------------------------------------------------
 
-# Enable testing
 enable_testing()
 
-# Fetch GoogleTest if not already available
 include(FetchContent)
 FetchContent_Declare(
     googletest
@@ -42,7 +40,6 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-# Build the tests
 add_executable(TaskManagerTests
     tests/test_TaskManager.cpp
 )
@@ -57,6 +54,5 @@ target_link_libraries(TaskManagerTests
 
 target_include_directories(TaskManagerTests PRIVATE include)
 
-# Register tests with CTest
 include(GoogleTest)
 gtest_discover_tests(TaskManagerTests)
