@@ -5,7 +5,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Include headers
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/src/BACKEND)
 
 # Gather source files
 file(GLOB SRCS "${PROJECT_SOURCE_DIR}/src/BACKEND/*cpp")

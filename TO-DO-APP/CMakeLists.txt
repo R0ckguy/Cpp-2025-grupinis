@@ -19,6 +19,8 @@ set(PROJECT_SOURCES
         src/FRONTEND/mainwindow.ui
         src/BACKEND/Task.cpp
         src/BACKEND/TaskManager.cpp
+        src/BACKEND/Task.h
+        src/BACKEND/TaskManager.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
