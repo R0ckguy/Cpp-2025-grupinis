@@ -6,29 +6,85 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>674</width>
+    <height>453</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="addTaskBtn">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Add task</string>
+    </property>
+   </widget>
+   <widget class="QDateTimeEdit" name="dueDateEdit">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>50</y>
+      <width>194</width>
+      <height>25</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="titleEdit">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>20</y>
+      <width>191</width>
+      <height>24</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="descriptionEdit">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>20</y>
+      <width>291</width>
+      <height>70</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="tableWidget">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>130</y>
+      <width>631</width>
+      <height>281</height>
+     </rect>
+    </property>
+    <property name="columnCount">
+     <number>5</number>
+    </property>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+   </widget>
+  </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>674</width>
      <height>21</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuTask_Manager">
-    <property name="title">
-     <string>Task Manager</string>
-    </property>
-   </widget>
-   <addaction name="menuTask_Manager"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
