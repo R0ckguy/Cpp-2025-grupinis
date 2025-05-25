@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+//#include "../../BACKEND/TaskManager.h"
 #include <QCheckBox>
+#include <QHBoxLayout>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,10 +11,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setupTable();
     ui->dueDateEdit->setDateTime(QDateTime::currentDateTime());
+    ui->errorLabel->clear();
+    // TODO: add loading tasks from .json file
 }
 
 MainWindow::~MainWindow()
 {
+    // TODO: add saving tasks to .json file
     delete ui;
 }
 
@@ -20,31 +25,169 @@ void MainWindow::setupTable() {
     ui->tableWidget->setColumnCount(5);
     ui->tableWidget->setHorizontalHeaderLabels({"✔", "Title", "Description", "Due Date", "Actions"});
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);  // checkbox column
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     for (int col = 1; col < ui->tableWidget->columnCount(); ++col) {
         ui->tableWidget->horizontalHeader()->setSectionResizeMode(col, QHeaderView::Stretch);
     }
+    ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void MainWindow::on_addTaskBtn_clicked()
 {
+    ui->errorLabel->clear();
     QString title = ui->titleEdit->text();
     QString description = ui->descriptionEdit->toPlainText();
     QDateTime dueDate = ui->dueDateEdit->dateTime();
-    QString date = dueDate.toString("yyyy-MM-dd HH:mm");
+    QString dueDateStr = dueDate.toString("yyyy-MM-dd HH:mm");
 
-    int newRow = ui->tableWidget->rowCount();
-    ui->tableWidget->insertRow(newRow);
+    if (title.isEmpty() || description.isEmpty() || dueDateStr.isEmpty()) {
+        ui->errorLabel->setText(QString("Please enter title/description/due date."));
+        return;
+    }
 
+    int row = ui->tableWidget->rowCount();
+    ui->tableWidget->insertRow(row);
+
+    // Checkbox
     QCheckBox* check = new QCheckBox();
-    ui->tableWidget->setCellWidget(newRow, 0, check);
+    connect(check, &QCheckBox::checkStateChanged, this, &MainWindow::toggleComplete);
+    ui->tableWidget->setCellWidget(row, 0, check);
 
-    ui->tableWidget->setItem(newRow, 1, new QTableWidgetItem(title));
-    ui->tableWidget->setItem(newRow, 2, new QTableWidgetItem(description));
-    ui->tableWidget->setItem(newRow, 3, new QTableWidgetItem(date));
+    // Title
+    ui->tableWidget->setItem(row, 1, new QTableWidgetItem(title));
 
-    // Clear inputs
+    // Description
+    ui->tableWidget->setItem(row, 2, new QTableWidgetItem(description));
+
+    // Due date
+    ui->tableWidget->setItem(row, 3, new QTableWidgetItem(dueDateStr));
+
+    // Actions (Edit and Delete Buttons)
+    QWidget* actionWidget = new QWidget();
+    QPushButton* editBtn = new QPushButton("Edit");
+    QPushButton* deleteBtn = new QPushButton("Delete");
+
+    // Connect buttons to slots
+    connect(editBtn, &QPushButton::clicked, this, &MainWindow::editTask);
+    connect(deleteBtn, &QPushButton::clicked, this, &MainWindow::deleteTask);
+
+    // Create horizontal layout for buttons
+    QHBoxLayout* layout = new QHBoxLayout(actionWidget);
+    layout->addWidget(editBtn);
+    layout->addWidget(deleteBtn);
+    layout->setContentsMargins(2, 2, 2, 2); // Small margins
+    layout->setSpacing(4); // Small spacing between buttons
+    layout->setAlignment(Qt::AlignCenter);
+    actionWidget->setLayout(layout);
+
+    ui->tableWidget->setCellWidget(row, 4, actionWidget);
+
+    // Clear input
     ui->titleEdit->clear();
     ui->descriptionEdit->clear();
+    ui->dueDateEdit->setDateTime(QDateTime::currentDateTime());
 }
 
+void MainWindow::deleteTask()
+{
+    QObject* senderObj = sender();
+    for (int i = 0; i < ui->tableWidget->rowCount(); ++i) {
+        QWidget* widget = ui->tableWidget->cellWidget(i, 4);
+        if (widget && widget->findChild<QPushButton*>() == senderObj) {
+            ui->tableWidget->removeRow(i);
+            // TODO: add removing task from .json file with TaskManager
+            break;
+        }
+    }
+}
+
+void MainWindow::toggleComplete(int state)
+{
+    QCheckBox* senderCheckbox = qobject_cast<QCheckBox*>(sender());
+    if (!senderCheckbox) return;
+
+    bool checked = (state == Qt::Checked);
+
+    for (int i = 0; i < ui->tableWidget->rowCount(); ++i) {
+        QWidget* widget = ui->tableWidget->cellWidget(i, 0);
+        if (widget == senderCheckbox) {
+            for (int col = 1; col <= 3; ++col) {
+                QTableWidgetItem* item = ui->tableWidget->item(i, col);
+                if (item) {
+                    if (checked) {
+                        item->setForeground(QColor(100, 100, 100));
+                        item->setBackground(QColor(240, 240, 240));
+                        QFont font = item->font();
+                        font.setStrikeOut(true);
+                        item->setFont(font);
+                    } else {
+                        item->setForeground(Qt::black);
+                        item->setBackground(Qt::white);
+                        QFont font = item->font();
+                        font.setStrikeOut(false);
+                        item->setFont(font);
+                    }
+                }
+            }
+            if (checked) {
+                ui->tableWidget->item(i, 0) ?
+                    ui->tableWidget->item(i, 0)->setBackground(QColor(240, 240, 240)) : void();
+                QWidget* actionsWidget = ui->tableWidget->cellWidget(i, 4);
+                if (actionsWidget) {
+                    actionsWidget->setStyleSheet("background-color: rgb(240, 240, 240);");
+                }
+            } else {
+                ui->tableWidget->item(i, 0) ?
+                    ui->tableWidget->item(i, 0)->setBackground(Qt::white) : void();
+                QWidget* actionsWidget = ui->tableWidget->cellWidget(i, 4);
+                if (actionsWidget) {
+                    actionsWidget->setStyleSheet("");
+                }
+            }
+            break;
+        }
+    }
+}
+
+void MainWindow::editTask()
+{
+    QPushButton* senderBtn = qobject_cast<QPushButton*>(sender());
+    if (!senderBtn) return;
+
+    // Find which row contains the clicked edit button
+    for (int i = 0; i < ui->tableWidget->rowCount(); ++i) {
+        QWidget* widget = ui->tableWidget->cellWidget(i, 4);
+        if (widget) {
+            // Find all buttons in the actions widget
+            QList<QPushButton*> buttons = widget->findChildren<QPushButton*>();
+            if (buttons.contains(senderBtn)) {
+                // Get current values from the row
+                QTableWidgetItem* titleItem = ui->tableWidget->item(i, 1);
+                QTableWidgetItem* descItem = ui->tableWidget->item(i, 2);
+                QTableWidgetItem* dateItem = ui->tableWidget->item(i, 3);
+
+                if (titleItem && descItem && dateItem) {
+                    // Populate the input fields with current values
+                    ui->titleEdit->setText(titleItem->text());
+                    ui->descriptionEdit->setPlainText(descItem->text());
+
+                    // Parse the date string and set it
+                    QDateTime dateTime = QDateTime::fromString(dateItem->text(), "yyyy-MM-dd HH:mm");
+                    if (dateTime.isValid()) {
+                        ui->dueDateEdit->setDateTime(dateTime);
+                    }
+
+                    // Remove the current row (it will be re-added when user clicks Add Task)
+                    ui->tableWidget->removeRow(i);
+
+                    // Optional: Change the Add Task button text to indicate editing mode
+                    ui->addTaskBtn->setText("Update Task");
+
+                    // Clear any error messages
+                    ui->errorLabel->clear();
+                }
+                break;
+            }
+        }
+    }
+}

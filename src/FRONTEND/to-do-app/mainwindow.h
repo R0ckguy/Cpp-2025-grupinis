@@ -16,12 +16,15 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void setupTable();
 
 private slots:
     void on_addTaskBtn_clicked();
+    void deleteTask();
+    void toggleComplete(int state);
+    void editTask();
 
 private:
     Ui::MainWindow *ui;
+    void setupTable();
 };
 #endif // MAINWINDOW_H
