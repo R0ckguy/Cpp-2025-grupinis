@@ -2,6 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "edittaskdialog.h"
+#include "deleteconfirmdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -17,11 +19,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
     void on_addTaskBtn_clicked();
     void deleteTask();
     void toggleComplete(int state);
     void editTask();
+    void deleteConfirm();
 
 private:
     Ui::MainWindow *ui;

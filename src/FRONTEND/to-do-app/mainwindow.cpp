@@ -12,7 +12,10 @@ MainWindow::MainWindow(QWidget *parent)
     setupTable();
     ui->dueDateEdit->setDateTime(QDateTime::currentDateTime());
     ui->errorLabel->clear();
+    setWindowTitle("To-do app");
+    resize(800, 500);
     // TODO: add loading tasks from .json file
+    // TODO: add window icon
 }
 
 MainWindow::~MainWindow()
@@ -69,7 +72,8 @@ void MainWindow::on_addTaskBtn_clicked()
 
     // Connect buttons to slots
     connect(editBtn, &QPushButton::clicked, this, &MainWindow::editTask);
-    connect(deleteBtn, &QPushButton::clicked, this, &MainWindow::deleteTask);
+    connect(deleteBtn, &QPushButton::clicked, this, &MainWindow::deleteConfirm);
+    // connect(deleteBtn, &QPushButton::clicked, this, &MainWindow::deleteTask);
 
     // Create horizontal layout for buttons
     QHBoxLayout* layout = new QHBoxLayout(actionWidget);
@@ -90,13 +94,18 @@ void MainWindow::on_addTaskBtn_clicked()
 
 void MainWindow::deleteTask()
 {
-    QObject* senderObj = sender();
+    QPushButton* senderBtn = qobject_cast<QPushButton*>(sender());
+    if (!senderBtn) return;
+
     for (int i = 0; i < ui->tableWidget->rowCount(); ++i) {
         QWidget* widget = ui->tableWidget->cellWidget(i, 4);
-        if (widget && widget->findChild<QPushButton*>() == senderObj) {
-            ui->tableWidget->removeRow(i);
-            // TODO: add removing task from .json file with TaskManager
-            break;
+        if (widget) {
+            QList<QPushButton*> buttons = widget->findChildren<QPushButton*>();
+            if (buttons.contains(senderBtn)) {
+                ui->tableWidget->removeRow(i);
+                // TODO: add removing task from .json file with TaskManager
+                break;
+            }
         }
     }
 }
@@ -167,27 +176,82 @@ void MainWindow::editTask()
                 QTableWidgetItem* dateItem = ui->tableWidget->item(i, 3);
 
                 if (titleItem && descItem && dateItem) {
-                    // Populate the input fields with current values
-                    ui->titleEdit->setText(titleItem->text());
-                    ui->descriptionEdit->setPlainText(descItem->text());
-
-                    // Parse the date string and set it
+                    // Parse the date string
                     QDateTime dateTime = QDateTime::fromString(dateItem->text(), "yyyy-MM-dd HH:mm");
-                    if (dateTime.isValid()) {
-                        ui->dueDateEdit->setDateTime(dateTime);
+                    if (!dateTime.isValid()) {
+                        dateTime = QDateTime::currentDateTime();
                     }
 
-                    // Remove the current row (it will be re-added when user clicks Add Task)
-                    ui->tableWidget->removeRow(i);
+                    // Create and show the edit dialog
+                    EditTaskDialog dialog(this);
+                    dialog.setTaskData(titleItem->text(), descItem->text(), dateTime);
 
-                    // Optional: Change the Add Task button text to indicate editing mode
-                    ui->addTaskBtn->setText("Update Task");
+                    if (dialog.exec() == QDialog::Accepted) {
+                        // User clicked Save - update the row with new data
+                        titleItem->setText(dialog.getTitle());
+                        descItem->setText(dialog.getDescription());
+                        QString newDateStr = dialog.getDueDate().toString("yyyy-MM-dd HH:mm");
+                        dateItem->setText(newDateStr);
 
-                    // Clear any error messages
-                    ui->errorLabel->clear();
+                        // Get checkbox state to maintain completed/uncompleted styling
+                        QCheckBox* checkbox = qobject_cast<QCheckBox*>(ui->tableWidget->cellWidget(i, 0));
+                        if (checkbox && checkbox->isChecked()) {
+                            // Reapply completed task styling
+                            for (int col = 1; col <= 3; ++col) {
+                                QTableWidgetItem* item = ui->tableWidget->item(i, col);
+                                if (item) {
+                                    item->setForeground(QColor(100, 100, 100));
+                                    item->setBackground(QColor(240, 240, 240));
+                                    QFont font = item->font();
+                                    font.setStrikeOut(true);
+                                    item->setFont(font);
+                                }
+                            }
+                        }
+                    }
+                    // If user clicked Cancel, dialog closes and nothing changes
                 }
                 break;
             }
         }
     }
+}
+
+void MainWindow::deleteConfirm() {
+    QPushButton* senderBtn = qobject_cast<QPushButton*>(sender());
+    if (!senderBtn) return;
+
+    for (int i = 0; i < ui->tableWidget->rowCount(); ++i) {
+        QWidget* widget = ui->tableWidget->cellWidget(i, 4);
+        if (widget) {
+            // Find all buttons in the actions widget
+            QList<QPushButton*> buttons = widget->findChildren<QPushButton*>();
+            if (buttons.contains(senderBtn)) {
+                // Get current values from the row
+                QTableWidgetItem* titleItem = ui->tableWidget->item(i, 1);
+                QTableWidgetItem* descItem = ui->tableWidget->item(i, 2);
+                QTableWidgetItem* dateItem = ui->tableWidget->item(i, 3);
+
+                if (titleItem && descItem && dateItem) {
+                    // Parse the date string
+                    QDateTime dateTime = QDateTime::fromString(dateItem->text(), "yyyy-MM-dd HH:mm");
+                    if (!dateTime.isValid()) {
+                        dateTime = QDateTime::currentDateTime();
+                    }
+
+                    // Create and show the edit dialog
+                    deleteConfirmDialog dialog(this);
+
+                    if (dialog.exec() == QDialog::Accepted) {
+                        ui->tableWidget->removeRow(i);
+                        // TODO: add removing task from .json file with TaskManager
+                    }
+                    // If user clicked Cancel, dialog closes and nothing changes
+                }
+                break;
+            }
+        }
+    }
+
+
 }
