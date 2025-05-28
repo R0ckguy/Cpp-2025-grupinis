@@ -4,6 +4,7 @@
 AddTaskDialog::AddTaskDialog(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddTaskDialog)
+    
 {
     ui->setupUi(this);
     setWindowTitle("Add task");

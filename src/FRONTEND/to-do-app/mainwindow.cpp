@@ -13,6 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     setupTable();
     setWindowTitle("To-do app");
     resize(800, 500);
+    this->setStyleSheet(
+        "QMainWindow { background-color: white; }"
+        "QPushButton { background-color: blue; color: white; }"
+        "QTableWidget { background-color: rgba(173, 216, 230, 0.5); }"
+        "QTableWidget::item { background-color: transparent; }"
+    );
     // TODO: add loading tasks from .json file
     // TODO: add window icon
 }
@@ -22,10 +28,13 @@ MainWindow::~MainWindow()
     // TODO: add saving tasks to .json file
     delete ui;
 }
-
 void MainWindow::setupTable() {
     ui->tableWidget->setColumnCount(5);
-    ui->tableWidget->setHorizontalHeaderLabels({"✔", "Title", "Description", "Due Date", "Actions"});
+    
+    QStringList headers;
+    headers << "✓" << "📝 Title" << "📄 Description" << "📅 Due Date" << "⚙️ Actions";
+    
+    ui->tableWidget->setHorizontalHeaderLabels(headers);
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::ResizeToContents);
     for (int col = 1; col < ui->tableWidget->columnCount(); ++col) {
@@ -33,6 +42,7 @@ void MainWindow::setupTable() {
     }
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
+
 
 void MainWindow::addTask(const QString &title, const QString &description, const QDateTime &dueDate)
 {
