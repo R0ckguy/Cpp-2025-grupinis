@@ -125,7 +125,7 @@ void MainWindow::toggleComplete(int state)
                 if (item) {
                     if (checked) {
                         item->setForeground(QColor(100, 100, 100));
-                        item->setBackground(QColor(240, 240, 240));
+                        item->setBackground(QColor(173, 216, 230));
                         QFont font = item->font();
                         font.setStrikeOut(true);
                         item->setFont(font);
@@ -140,10 +140,10 @@ void MainWindow::toggleComplete(int state)
             }
             if (checked) {
                 ui->tableWidget->item(i, 0) ?
-                    ui->tableWidget->item(i, 0)->setBackground(QColor(240, 240, 240)) : void();
+                    ui->tableWidget->item(i, 0)->setBackground(QColor(173, 216, 230)) : void();
                 QWidget* actionsWidget = ui->tableWidget->cellWidget(i, 4);
                 if (actionsWidget) {
-                    actionsWidget->setStyleSheet("background-color: rgb(240, 240, 240);");
+                    actionsWidget->setStyleSheet("background-color: rgb(173, 216, 230);");
                 }
             } else {
                 ui->tableWidget->item(i, 0) ?
