@@ -3,6 +3,7 @@
 //#include "../../BACKEND/TaskManager.h"
 #include <QCheckBox>
 #include <QHBoxLayout>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -10,8 +11,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     setupTable();
-    ui->dueDateEdit->setDateTime(QDateTime::currentDateTime());
-    ui->errorLabel->clear();
     setWindowTitle("To-do app");
     resize(800, 500);
     // TODO: add loading tasks from .json file
@@ -35,19 +34,8 @@ void MainWindow::setupTable() {
     ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
-void MainWindow::on_addTaskBtn_clicked()
+void MainWindow::addTask(const QString &title, const QString &description, const QDateTime &dueDate)
 {
-    ui->errorLabel->clear();
-    QString title = ui->titleEdit->text();
-    QString description = ui->descriptionEdit->toPlainText();
-    QDateTime dueDate = ui->dueDateEdit->dateTime();
-    QString dueDateStr = dueDate.toString("yyyy-MM-dd HH:mm");
-
-    if (title.isEmpty() || description.isEmpty() || dueDateStr.isEmpty()) {
-        ui->errorLabel->setText(QString("Please enter title/description/due date."));
-        return;
-    }
-
     int row = ui->tableWidget->rowCount();
     ui->tableWidget->insertRow(row);
 
@@ -63,33 +51,35 @@ void MainWindow::on_addTaskBtn_clicked()
     ui->tableWidget->setItem(row, 2, new QTableWidgetItem(description));
 
     // Due date
+    QString dueDateStr = dueDate.toString("yyyy-MM-dd HH:mm");
     ui->tableWidget->setItem(row, 3, new QTableWidgetItem(dueDateStr));
 
-    // Actions (Edit and Delete Buttons)
+    // Actions (Edit and Delete)
     QWidget* actionWidget = new QWidget();
     QPushButton* editBtn = new QPushButton("Edit");
     QPushButton* deleteBtn = new QPushButton("Delete");
 
-    // Connect buttons to slots
     connect(editBtn, &QPushButton::clicked, this, &MainWindow::editTask);
     connect(deleteBtn, &QPushButton::clicked, this, &MainWindow::deleteConfirm);
-    // connect(deleteBtn, &QPushButton::clicked, this, &MainWindow::deleteTask);
 
-    // Create horizontal layout for buttons
     QHBoxLayout* layout = new QHBoxLayout(actionWidget);
     layout->addWidget(editBtn);
     layout->addWidget(deleteBtn);
-    layout->setContentsMargins(2, 2, 2, 2); // Small margins
-    layout->setSpacing(4); // Small spacing between buttons
+    layout->setContentsMargins(2, 2, 2, 2);
+    layout->setSpacing(4);
     layout->setAlignment(Qt::AlignCenter);
     actionWidget->setLayout(layout);
 
     ui->tableWidget->setCellWidget(row, 4, actionWidget);
+}
 
-    // Clear input
-    ui->titleEdit->clear();
-    ui->descriptionEdit->clear();
-    ui->dueDateEdit->setDateTime(QDateTime::currentDateTime());
+void MainWindow::on_addTaskBtn_clicked()
+{
+    AddTaskDialog dialog(this);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        addTask(dialog.getTitle(), dialog.getDescription(), dialog.getDueDate());
+    }
 }
 
 void MainWindow::deleteTask()

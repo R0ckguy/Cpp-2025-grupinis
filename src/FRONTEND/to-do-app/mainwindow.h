@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "edittaskdialog.h"
 #include "deleteconfirmdialog.h"
+#include "addtaskdialog.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -26,6 +27,7 @@ private slots:
     void toggleComplete(int state);
     void editTask();
     void deleteConfirm();
+    void addTask(const QString &title, const QString &description, const QDateTime &dueDate);
 
 private:
     Ui::MainWindow *ui;

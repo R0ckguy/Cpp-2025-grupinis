@@ -46,8 +46,6 @@ void EditTaskDialog::setTaskData(const QString &title, const QString &descriptio
     ui->errorLabel->clear();
 }
 
-
-
 void EditTaskDialog::on_saveBtn_clicked()
 {
     // Validate input

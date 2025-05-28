@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>EditTaskDialog</class>
- <widget class="QDialog" name="EditTaskDialog">
+ <class>AddTaskDialog</class>
+ <widget class="QDialog" name="AddTaskDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -16,9 +16,6 @@
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
      <item>
       <widget class="QLabel" name="titleLabel">
        <property name="text">
@@ -27,7 +24,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="titleEdit"/>
+      <widget class="QLineEdit" name="titleEdit">
+       <property name="placeholderText">
+        <string>Enter task title</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="descriptionLabel">
@@ -37,7 +38,11 @@
       </widget>
      </item>
      <item>
-      <widget class="QTextEdit" name="descriptionEdit"/>
+      <widget class="QTextEdit" name="descriptionEdit">
+       <property name="placeholderText">
+        <string>Enter task description</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="dueDateLabel">
@@ -62,7 +67,7 @@
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
        <item>
         <widget class="QPushButton" name="saveBtn">
          <property name="text">
