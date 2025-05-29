@@ -15,69 +15,75 @@
 # Activity diagrama
 ![Activity diagram](https://github.com/user-attachments/assets/cf94452c-05cc-424e-b70b-0f15dce367a1)
 
+# Klasių diagrama
 ![Klasių diagrama](https://github.com/user-attachments/assets/0d0bcf77-bed4-4eb5-8d11-9123d47ae9ae)
 
-## Projektavimo šablonai
+# Projekto struktūra
+
+- **Front-end:** QT framework
+- **Back-end:** C++, Google Test C++ framework
+
+# Projektavimo šablonai
 
 Šiame projekte taikomi šie projektavimo šablonai:
 
-### Iteratorius (Iterator Pattern)
+## Iteratorius (Iterator Pattern)
 - **Kur rasti:** `TaskManager.cpp` metodai (`listAll()`, `searchByTitle()`), taip pat pagrindinė duomenų išvedimo vieta (`main.cpp`, ciklas `for (auto& t : list)`).
 - **Kaip veikia:** Leidžia patogiai ir saugiai pereiti per užduočių sąrašą, neatsižvelgiant į jų saugojimo būdą.
 - **Nauda:** Lankstumas dirbant su duomenų kolekcijomis, aiškesnė programos logika.
 
-### Atsakomybės atskyrimas (Separation of Concerns)
+## Atsakomybės atskyrimas (Separation of Concerns)
 - **Kur rasti:** Klasių struktūroje: `TaskManager` klasė valdo visą užduočių logiką, o `main.cpp` tik valdo vartotojo įvestis.
 - **Kaip veikia:** Kiekviena komponentė atsakinga tik už savo funkcionalumą.
 - **Nauda:** Lengvesnis kodų keitimas bei palaikymas, aiškesnė architektūra.
 
-## Kaip paleisti projektą
+# Kaip paleisti projektą
 
-### 🐧 Linux
+## 🐧 Linux
 
-#### 1. Įdiek priklausomybes (jei neturi):
+### 1. Įdiek priklausomybes (jei neturi):
 ```bash 
 sudo apt install cmake g++ libnlohmann-json-dev
 ```
 
-#### 2. Sukurk build katalogą:
+### 2. Sukurk build katalogą:
 ```bash
 mkdir build
 cd build
 ```
 
-#### 3. Sugeneruok projektą:
+### 3. Sugeneruok projektą:
 ```bash
 cmake ..
 ```
 
-#### 4. Sukompiliuok:
+### 4. Sukompiliuok:
 ```bash
 make
 ```
 
-#### 5. Paleisk programą:
+### 5. Paleisk programą:
 ```bash
 ./task_app
 ```
 
-#### 6. Paleisk testus:
+### 6. Paleisk testus:
 ```bash
 ctest --verbose
 ```
 
-### 🪟 Windows (per MSYS2 + CLANG64)
+## 🪟 Windows (per MSYS2 + CLANG64)
 
-#### 1. Įsidiek [MSYS2](https://www.msys2.org/)
+### 1. Įsidiek [MSYS2](https://www.msys2.org/)
 
-#### 2. Paleisk *MSYS2 CLANG64* terminalą ir įdiek reikalingas programas:
+### 2. Paleisk *MSYS2 CLANG64* terminalą ir įdiek reikalingas programas:
 
 ```bash
 pacman -Syu
 pacman -S cmake clang make mingw-w64-clang-x86_64-nlohmann-json
 ```
 
-#### 3. Sukurk build katalogą ir sugeneruok projektą:
+### 3. Sukurk build katalogą ir sugeneruok projektą:
 
 ```bash
 cd C:/kelias/iki/projekto
@@ -86,19 +92,19 @@ cd build
 cmake ..
 ```
 
-#### 4. Sukompiliuok projektą:
+### 4. Sukompiliuok projektą:
 
 ```bash
 mingw32-make
 ```
 
-#### 5. Paleisk programą:
+### 5. Paleisk programą:
 
 ```bash
 ./task_app.exe
 ```
 
-#### 6. Paleisk testus:
+### 6. Paleisk testus:
 
 ```bash
 ctest --verbose
