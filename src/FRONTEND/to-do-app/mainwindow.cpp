@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-//#include "../../BACKEND/TaskManager.h"
+// #include "../../BACKEND/TaskManager.h"
 #include <QCheckBox>
 #include <QHBoxLayout>
 #include <QDateTime>
@@ -82,6 +82,33 @@ void MainWindow::addTask(const QString &title, const QString &description, const
     QPushButton* editBtn = new QPushButton("Edit");
     QPushButton* deleteBtn = new QPushButton("Delete");
 
+    // Style the buttons to match app color scheme
+    editBtn->setStyleSheet(
+        "QPushButton { "
+        "background-color: #5DADE2; "  // Light blue matching the app theme
+        "color: white; "
+        "border: none; "
+        "padding: 6px 12px; "
+        "border-radius: 6px; "
+        "}"
+        "QPushButton:hover { "
+        "background-color: #3498DB; "  // Darker blue on hover
+        "}"
+        );
+
+    deleteBtn->setStyleSheet(
+        "QPushButton { "
+        "background-color: #85C1E9; "  // Slightly darker blue for delete
+        "color: white; "
+        "border: none; "
+        "padding: 6px 12px; "
+        "border-radius: 6px; "
+        "}"
+        "QPushButton:hover { "
+        "background-color: #2E86AB; "  // Darker blue on hover
+        "}"
+        );
+
     connect(editBtn, &QPushButton::clicked, this, &MainWindow::editTask);
     connect(deleteBtn, &QPushButton::clicked, this, &MainWindow::deleteConfirm);
 
@@ -123,6 +150,7 @@ void MainWindow::deleteTask()
     }
 }
 
+
 void MainWindow::toggleComplete(int state)
 {
     QCheckBox* senderCheckbox = qobject_cast<QCheckBox*>(sender());
@@ -154,16 +182,82 @@ void MainWindow::toggleComplete(int state)
             if (checked) {
                 ui->tableWidget->item(i, 0) ?
                     ui->tableWidget->item(i, 0)->setBackground(QColor(173, 216, 230)) : void();
+
+                // Only style the buttons, don't change the action widget background
                 QWidget* actionsWidget = ui->tableWidget->cellWidget(i, 4);
                 if (actionsWidget) {
-                    actionsWidget->setStyleSheet("background-color: rgb(173, 216, 230);");
+                    QList<QPushButton*> buttons = actionsWidget->findChildren<QPushButton*>();
+                    for (QPushButton* btn : buttons) {
+                        if (btn->text() == "Edit") {
+                            btn->setStyleSheet(
+                                "QPushButton { "
+                                "background-color: #5DADE2; "  // Light blue matching theme
+                                "color: white; "
+                                "border: none; "
+                                "padding: 6px 12px; "
+                                "border-radius: 6px; "
+                                "opacity: 0.7; "  // Slightly dimmed but not transparent
+                                "}"
+                                "QPushButton:hover { "
+                                "background-color: #3498DB; "
+                                "opacity: 0.8; "
+                                "}"
+                                );
+                        } else if (btn->text() == "Delete") {
+                            btn->setStyleSheet(
+                                "QPushButton { "
+                                "background-color: #85C1E9; "  // Darker blue for delete
+                                "color: white; "
+                                "border: none; "
+                                "padding: 6px 12px; "
+                                "border-radius: 6px; "
+                                "opacity: 0.7; "  // Slightly dimmed but not transparent
+                                "}"
+                                "QPushButton:hover { "
+                                "background-color: #2E86AB; "
+                                "opacity: 0.8; "
+                                "}"
+                                );
+                        }
+                    }
                 }
             } else {
                 ui->tableWidget->item(i, 0) ?
                     ui->tableWidget->item(i, 0)->setBackground(Qt::white) : void();
+
+                // Reset buttons to normal styling without changing action widget background
                 QWidget* actionsWidget = ui->tableWidget->cellWidget(i, 4);
                 if (actionsWidget) {
-                    actionsWidget->setStyleSheet("");
+                    QList<QPushButton*> buttons = actionsWidget->findChildren<QPushButton*>();
+                    for (QPushButton* btn : buttons) {
+                        if (btn->text() == "Edit") {
+                            btn->setStyleSheet(
+                                "QPushButton { "
+                                "background-color: #5DADE2; "  // Light blue matching theme
+                                "color: white; "
+                                "border: none; "
+                                "padding: 6px 12px; "
+                                "border-radius: 6px; "
+                                "}"
+                                "QPushButton:hover { "
+                                "background-color: #3498DB; "
+                                "}"
+                                );
+                        } else if (btn->text() == "Delete") {
+                            btn->setStyleSheet(
+                                "QPushButton { "
+                                "background-color: #85C1E9; "  // Darker blue for delete
+                                "color: white; "
+                                "border: none; "
+                                "padding: 6px 12px; "
+                                "border-radius: 6px; "
+                                "}"
+                                "QPushButton:hover { "
+                                "background-color: #2E86AB; "
+                                "}"
+                                );
+                        }
+                    }
                 }
             }
             break;
