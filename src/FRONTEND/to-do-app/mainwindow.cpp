@@ -15,12 +15,25 @@ MainWindow::MainWindow(QWidget *parent)
     resize(800, 500);
     this->setStyleSheet(
         "QMainWindow { background-color: white; }"
-        "QPushButton { background-color: blue; color: white; }"
+        "QPushButton { "
+        "background-color: blue; "
+        "color: white; "
+        "border: none; "
+        "padding: 6px 12px; "
+        "border-radius: 6px;"
+        "}"
+        "QPushButton:hover { "
+        "background-color: mediumblue; "
+        "color: white; "
+        "}"
+        "QPushButton:pressed { "
+        "background-color: darkblue; "
+        "}"
         "QTableWidget { background-color: rgba(173, 216, 230, 0.5); }"
         "QTableWidget::item { background-color: transparent; }"
-    );
+        );
+    setWindowIcon(style()->standardIcon(QStyle::SP_FileDialogContentsView));
     // TODO: add loading tasks from .json file
-    // TODO: add window icon
 }
 
 MainWindow::~MainWindow()
