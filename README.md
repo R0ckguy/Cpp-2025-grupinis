@@ -16,7 +16,8 @@
 ![Activity diagram](https://github.com/user-attachments/assets/cf94452c-05cc-424e-b70b-0f15dce367a1)
 
 # Klasių diagrama
-![Klasių diagrama](https://github.com/user-attachments/assets/0d0bcf77-bed4-4eb5-8d11-9123d47ae9ae)
+![Klasių diagrama](https://github.com/user-attachments/assets/f194bf56-1828-41ac-b8a5-c5c7a302f6cc)
+
 
 # Projekto struktūra
 
